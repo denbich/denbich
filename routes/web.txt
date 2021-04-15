@@ -1,0 +1,32 @@
+Route::get('/hello/{name}/{age}', function (string $name, int $age) {
+
+    echo "Cześć ". $name . ", masz ". $age . " lat.";
+
+});
+
+Route::prefix('hello')->group(function() {
+
+    Route::get('/world', function () {
+        echo "Witaj świecie!";
+    });
+
+    Route::get('/{name?}/{age?}', function (string $name = "nieznajomy", int $age = null) {
+
+        echo "Witaj ".$name.", ";
+        if (is_null($age))
+        {
+            echo "Nie podałeś wieku!";
+        } else {
+            echo "Masz już ".$age." lat.";
+        }
+
+    })->name('Powitanie');
+});
+
+Route::redirect('/witaj-swiecie', '/hello/world', 301);
+
+Route::get('api/books/{book}', function (App\Book $book) {
+
+    return $book->title;
+
+});
