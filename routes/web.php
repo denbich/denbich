@@ -10,5 +10,5 @@ Route::get('/', function () {
 });
 
 Route::resource('books', BookController::class);
-
+Route::get('/books/{id}/delete', [BookController::class, 'destroy']);
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Book;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 class BookController extends Controller
 {
@@ -15,7 +16,7 @@ class BookController extends Controller
     public function index(Book $book)
     {
         $booksList = $book->all();
-        return view('list', ['bookslist' => $booksList]);
+        return view('books\list', ['bookslist' => $booksList]);
     }
 
     /**
@@ -25,7 +26,15 @@ class BookController extends Controller
      */
     public function create()
     {
-        //
+        $book = new Book();
+        $book->name = "Pan Tadeusz";
+        $book->year = "1999";
+        $book->publication_place = "Kraków";
+        $book->pages = 450;
+        $book->price = 39.99;
+        $book->save();
+
+        return redirect('books');
     }
 
     /**
@@ -47,7 +56,8 @@ class BookController extends Controller
      */
     public function show($id)
     {
-        //
+        $book = Book::find($id);
+        return view('books\show', ['book' => $book]);
     }
 
     /**
@@ -58,7 +68,15 @@ class BookController extends Controller
      */
     public function edit($id)
     {
-        //
+        $book = Book::find($id);
+        $book->name = "Quo Vadis";
+        $book->year = 2001;
+        $book->publication_place = "Warszawa";
+        $book->pages = 650;
+        $book->price = 59.99;
+        $book->save();
+
+        return redirect('books');
     }
 
     /**
@@ -81,6 +99,8 @@ class BookController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $book = Book::find($id);
+        $book->delete();
+        return Redirect('books');
     }
 }
